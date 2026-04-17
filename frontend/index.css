@@ -36,7 +36,7 @@ body {
 }
 
 .logo-image {
-    height: 150px; /* Ajusta este valor si lo quieres más grande o pequeño */
+    height: 50px; /* Ajusta este valor si lo quieres más grande o pequeño */
     width: auto;
     filter: invert(1); /* Pone el logo blanco para que resalte en el fondo oscuro */
 }

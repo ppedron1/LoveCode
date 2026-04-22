@@ -91,6 +91,18 @@ body {
     margin-top: 10px;
 }
 
+.input-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    background: var(--input-bg);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    color: white;
+    font-family: 'Fira Code', monospace;
+    outline: none;
+    resize: none;
+}
+
 .auth-btn:hover { background: var(--primary-hover); transform: scale(1.02); }
 
 .auth-footer { text-align: center; margin-top: 25px; font-size: 0.9rem; }

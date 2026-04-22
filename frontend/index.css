@@ -91,7 +91,6 @@ a { text-decoration: none; font-weight: 600; }
     line-height: 1.6;
 }
 
-/* Code Window Decoration */
 .code-window {
     background: var(--code-bg);
     border-radius: 8px;

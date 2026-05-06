@@ -8,6 +8,7 @@ async function ejecutarRegistro(event) {
         email: document.getElementById('reg-email').value,
         password: document.getElementById('reg-pass').value,
         ciudad: document.getElementById('reg-ciudad').value
+        descripcion: document.getElementById('reg-descripcion').value
     };
 
     try {

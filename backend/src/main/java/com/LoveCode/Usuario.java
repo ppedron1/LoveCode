@@ -6,6 +6,7 @@ public class Usuario {
     private String email;
     private String password;
     private String ciudad;
+    private String descripcion;
 
     // Constructores
     public Usuario() {}
@@ -20,4 +21,7 @@ public class Usuario {
     public void setPassword(String password) { this.password = password; }
     public String getCiudad() { return ciudad; }
     public void setCiudad(String ciudad) { this.ciudad = ciudad; }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    
 }

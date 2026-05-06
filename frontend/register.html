@@ -14,33 +14,12 @@
                 <p class="header-subtitle">Crea tu usuario</p>
             </div>
             
-            <form id="form-registro" action="#" method="POST">
-                <div class="input-group">
-                    <label for="nombre">String nombreCompleto;</label>
-                    <input type="text" id="nombre" placeholder="Ada Lovelace" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="email">String email;</label>
-                    <input type="email" id="email" placeholder="ada@lovecode.com" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="password">String passwordHash;</label>
-                    <input type="password" id="password" placeholder="Crea una contraseña segura" required>
-                </div>
-
-                <div class="input-group">
-    <label for="ciudad">String ciudad;</label>
-    <input type="text" id="ciudad" placeholder="Valencia, España" required>
-</div>
-
-<div class="input-group">
-    <label for="descripcion">String descripcion;</label>
-    <textarea id="descripcion" placeholder="Cuentanos sobre tus intereses..." rows="3" required></textarea>
-</div>
-
-                <button type="submit" class="auth-btn">INSERT INTO Usuarios</button>
+            <form id="form-registro">
+                <input type="text" id="reg-nombre" placeholder="Nombre completo" required>
+                <input type="email" id="reg-email" placeholder="Correo electrónico" required>
+                <input type="password" id="reg-pass" placeholder="Contraseña" required>
+                <input type="text" id="reg-ciudad" placeholder="Ciudad">
+                <button type="submit">Crear Cuenta</button>
             </form>
 
             <div class="auth-footer">

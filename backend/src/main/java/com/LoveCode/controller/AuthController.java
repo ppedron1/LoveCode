@@ -3,7 +3,6 @@ package com.LoveCode.controller;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,7 @@ import com.LoveCode.Usuario;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Permite que el navegador acepte la respuesta del servidor
 public class AuthController {
 
     @PostMapping("/registro")
@@ -30,20 +29,21 @@ public class AuthController {
             
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getEmail());
-            ps.setString(3, u.getPassword()); // Deberías hashear esto con BCrypt
+            ps.setString(3, u.getPassword()); 
             ps.setString(4, u.getCiudad());
             
             ps.executeUpdate();
-            return ResponseEntity.ok(Map.of("mensaje", "Registro exitoso en Debian"));
+            return ResponseEntity.ok(Map.of("mensaje", "Usuario registrado correctamente"));
             
-        } catch (SQLException e) {
-            return ResponseEntity.status(500).body("Error en BD: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            return ResponseEntity.status(500).body(Map.of("error", "Error en BD: " + e.getMessage()));
         }
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credenciales) {
-        String sql = "SELECT * FROM Usuarios WHERE email = ? AND password = ?";
+        String sql = "SELECT nombre FROM Usuarios WHERE email = ? AND password = ?";
         
         try (Connection conn = ConexionDB.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -54,13 +54,12 @@ public class AuthController {
             ResultSet rs = ps.executeQuery();
             
             if (rs.next()) {
-                return ResponseEntity.ok(Map.of("status", "ok", "user", rs.getString("nombre")));
+                return ResponseEntity.ok(Map.of("status", "ok", "nombre", rs.getString("nombre")));
             } else {
-                return ResponseEntity.status(401).body("Credenciales incorrectas");
+                return ResponseEntity.status(401).body(Map.of("error", "Credenciales incorrectas"));
             }
-            
-        } catch (SQLException e) {
-            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
         }
     }
 }

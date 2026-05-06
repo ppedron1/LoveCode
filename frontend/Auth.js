@@ -1,8 +1,7 @@
 const URL_BASE = "http://localhost:8080/api/auth";
 
-// Lógica de Registro
-async function ejecutarRegistro(e) {
-    e.preventDefault();
+async function ejecutarRegistro(event) {
+    event.preventDefault(); // Detiene el envío tradicional del formulario
 
     const datos = {
         nombre: document.getElementById('reg-nombre').value,
@@ -11,35 +10,51 @@ async function ejecutarRegistro(e) {
         ciudad: document.getElementById('reg-ciudad').value
     };
 
-    const res = await fetch(`${URL_BASE}/registro`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(datos)
-    });
+    try {
+        const res = await fetch(`${URL_BASE}/registro`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(datos)
+        });
 
-    const info = await res.json();
-    alert(info.mensaje);
+        const info = await res.json();
+        
+        if (res.ok) {
+            alert("¡Éxito!: " + info.mensaje);
+            window.location.href = "login.html";
+        } else {
+            alert("Error: " + (info.error || "No se pudo registrar"));
+        }
+    } catch (error) {
+        console.error("Error de red:", error);
+        alert("No se pudo conectar con el servidor Java");
+    }
 }
 
-// Lógica de Login
-async function ejecutarLogin(e) {
-    e.preventDefault();
+async function ejecutarLogin(event) {
+    event.preventDefault();
 
     const creds = {
         email: document.getElementById('login-email').value,
         password: document.getElementById('login-pass').value
     };
 
-    const res = await fetch(`${URL_BASE}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(creds)
-    });
+    try {
+        const res = await fetch(`${URL_BASE}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(creds)
+        });
 
-    if (res.ok) {
-        alert("¡Bienvenido a LoveCode!");
-        window.location.href = "index.html";
-    } else {
-        alert("Fallo en el inicio de sesión");
+        const info = await res.json();
+
+        if (res.ok) {
+            alert("Bienvenido, " + info.nombre);
+            window.location.href = "index.html";
+        } else {
+            alert("Acceso denegado: " + info.error);
+        }
+    } catch (error) {
+        console.error("Error:", error);
     }
 }

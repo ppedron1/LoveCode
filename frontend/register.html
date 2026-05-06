@@ -14,7 +14,7 @@
                 <p class="header-subtitle">Crea tu usuario</p>
             </div>
             
-            <form id="registerForm" action="#" method="POST">
+            <form id="form-registro" action="#" method="POST">
                 <div class="input-group">
                     <label for="nombre">String nombreCompleto;</label>
                     <input type="text" id="nombre" placeholder="Ada Lovelace" required>
@@ -48,6 +48,9 @@
             </div>
         </div>
     </div>
-    <script src="register.js"></script>
+    <script src="Auth.js"></script>
+<script>
+    document.getElementById('form-registro').addEventListener('submit', ejecutarRegistro);
+</script>
 </body>
 </html>

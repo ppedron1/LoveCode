@@ -31,6 +31,7 @@ public class AuthController {
             ps.setString(2, u.getEmail());
             ps.setString(3, u.getPassword()); 
             ps.setString(4, u.getCiudad());
+            ps.setString(5, u.getDescripcion());
             
             ps.executeUpdate();
             return ResponseEntity.ok(Map.of("mensaje", "Usuario registrado correctamente"));

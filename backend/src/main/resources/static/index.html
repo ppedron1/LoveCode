@@ -29,72 +29,58 @@
         </div>
         <div class="hero-image profiles-hero">
             <h2 class="profiles-hero-title">Perfiles que puedes encontrar</h2>
-            <div class="profiles-grid">
-                <div class="profile-card">
-                    <div class="profile-info">
-                        <h3>Sergio el chill, 28 <span class="status online"></span></h3>
-                        <p class="role">Full Stack Developer</p>
-                        <div class="tech-stack">
-                            <span class="tech-tag react">HTML</span>
-                            <span class="tech-tag node">Python</span>
-                        </div>
-                        <p class="bio">"Buscando a alguien con quien hacer merge sin conflictos."</p>
-                    </div>
-                    <div class="card-actions">
-                        <button class="action-btn nope" aria-label="Rechazar">✗</button>
-                        <button class="action-btn like" aria-label="Me gusta">❤</button>
-                    </div>
-                </div>
-
-                <div class="profile-card">
-                    <div class="profile-info">
-                        <h3>Pgreus bot, 25 <span class="status online"></span></h3>
-                        <p class="role">Frontend Engineer</p>
-                        <div class="tech-stack">
-                            <span class="tech-tag vue">React</span>
-                            <span class="tech-tag css">CSS3</span>
-                        </div>
-                        <p class="bio">"Buscando conexiones"</p>
-                    </div>
-                    <div class="card-actions">
-                        <button class="action-btn nope" aria-label="Rechazar">✗</button>
-                        <button class="action-btn like" aria-label="Me gusta">❤</button>
-                    </div>
-                </div>
-
-                <div class="profile-card">
-                    <div class="profile-info">
-                        <h3>Gutis, 30 <span class="status offline"></span></h3>
-                        <p class="role">Backend Ninja</p>
-                        <div class="tech-stack">
-                            <span class="tech-tag python">Php</span>
-                            <span class="tech-tag java">java</span>
-                        </div>
-                        <p class="bio">"Si fueras una base de datos, te haría querys todo el día."</p>
-                    </div>
-                    <div class="card-actions">
-                        <button class="action-btn nope" aria-label="Rechazar">✗</button>
-                        <button class="action-btn like" aria-label="Me gusta">❤</button>
-                    </div>
-                </div>
-
-                <div class="profile-card">
-                    <div class="profile-info">
-                        <h3>Periko, 24 <span class="status online"></span></h3>
-                        <p class="role">Data Scientist</p>
-                        <div class="tech-stack">
-                            <span class="tech-tag python">Python</span>
-                            <span class="tech-tag sql">SQL</span>
-                        </div>
-                        <p class="bio">"Los datos lo son todo."</p>
-                    </div>
-                    <div class="card-actions">
-                        <button class="action-btn nope" aria-label="Rechazar">✗</button>
-                        <button class="action-btn like" aria-label="Me gusta">❤</button>
-                    </div>
-                </div>
+            <div class="profiles-grid" id="profiles-grid">
+                <!-- Los perfiles se cargan dinámicamente desde la BD -->
+                <p style="color: #aaa; text-align: center; grid-column: 1/-1;">Cargando perfiles...</p>
             </div>
         </div>
+
+    <script>
+        const API_URL = "http://localhost:8080/api/usuarios";
+
+        async function cargarPerfiles() {
+            const grid = document.getElementById('profiles-grid');
+
+            try {
+                const res = await fetch(API_URL);
+                const usuarios = await res.json();
+
+                if (usuarios.length === 0) {
+                    grid.innerHTML = '<p style="color: #aaa; text-align: center; grid-column: 1/-1;">No hay perfiles registrados aún. ¡Sé el primero!</p>';
+                    return;
+                }
+
+                grid.innerHTML = '';
+
+                // Mostrar solo los primeros 6 usuarios en la página pública
+                const usuariosPreview = usuarios.slice(0, 6);
+
+                usuariosPreview.forEach(u => {
+                    const card = document.createElement('div');
+                    card.className = 'profile-card';
+                    card.innerHTML = `
+                        <div class="profile-info">
+                            <h3>${u.nombre} <span class="status online"></span></h3>
+                            <p class="role">📍 ${u.ciudad || 'Sin ciudad'}</p>
+                            <p class="bio">"${u.descripcion || 'Sin descripción'}"</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn nope" aria-label="Rechazar">✗</button>
+                            <button class="action-btn like" aria-label="Me gusta">❤</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Error cargando perfiles:", error);
+                grid.innerHTML = '<p style="color: #ff6b6b; text-align: center; grid-column: 1/-1;">Error al conectar con el servidor</p>';
+            }
+        }
+
+        // Cargar perfiles al abrir la página
+        cargarPerfiles();
+    </script>
     </main>
 
     <footer class="footer">

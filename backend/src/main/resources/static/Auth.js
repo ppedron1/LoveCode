@@ -51,7 +51,8 @@ async function ejecutarLogin(event) {
 
         if (res.ok) {
             alert("Bienvenido, " + info.nombre);
-            window.location.href = "index.html";
+            localStorage.setItem('lovecode_user', info.nombre);
+            window.location.href = "dashboard.html";
         } else {
             alert("Acceso denegado: " + info.error);
         }

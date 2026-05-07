@@ -14,15 +14,15 @@
                 <p class="header-subtitle">Inicia sesión en tu servidor</p>
             </div>
             
-            <form action="#" method="POST">
+            <form id="form-login">
                 <div class="input-group">
-                    <label for="email">String email;</label>
-                    <input type="email" id="email" placeholder="developer@lovecode.com" required>
+                    <label for="login-email">String email;</label>
+                    <input type="email" id="login-email" placeholder="developer@lovecode.com" required>
                 </div>
                 
                 <div class="input-group">
-                    <label for="password">String password;</label>
-                    <input type="password" id="password" placeholder="••••••••" required>
+                    <label for="login-pass">String password;</label>
+                    <input type="password" id="login-pass" placeholder="••••••••" required>
                 </div>
 
                 <button type="submit" class="auth-btn">Ejecutar (Entrar)</button>
@@ -33,5 +33,9 @@
             </div>
         </div>
     </div>
+    <script src="Auth.js"></script>
+    <script>
+        document.getElementById('form-login').addEventListener('submit', ejecutarLogin);
+    </script>
 </body>
 </html>

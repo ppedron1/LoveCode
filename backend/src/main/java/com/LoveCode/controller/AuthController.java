@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,16 +22,22 @@ import com.LoveCode.Usuario;
 @CrossOrigin(origins = "*") // Permite que el navegador acepte la respuesta del servidor
 public class AuthController {
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @PostMapping("/registro")
     public ResponseEntity<?> registrar(@RequestBody Usuario u) {
-        String sql = "INSERT INTO Usuarios (nombre, email, password, ciudad) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Usuarios (nombre, email, password, ciudad, descripcion) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection conn = ConexionDB.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
+            // Encriptamos la contraseña con BCrypt antes de guardarla
+            String passwordEncriptada = passwordEncoder.encode(u.getPassword());
+            
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getEmail());
-            ps.setString(3, u.getPassword()); 
+            ps.setString(3, passwordEncriptada); // Se guarda el hash, NO el texto plano
             ps.setString(4, u.getCiudad());
             ps.setString(5, u.getDescripcion());
             
@@ -44,18 +52,25 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credenciales) {
-        String sql = "SELECT nombre FROM Usuarios WHERE email = ? AND password = ?";
+        // Ahora buscamos solo por email, ya NO comparamos la contraseña en SQL
+        String sql = "SELECT nombre, password FROM Usuarios WHERE email = ?";
         
         try (Connection conn = ConexionDB.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setString(1, credenciales.get("email"));
-            ps.setString(2, credenciales.get("password"));
             
             ResultSet rs = ps.executeQuery();
             
             if (rs.next()) {
-                return ResponseEntity.ok(Map.of("status", "ok", "nombre", rs.getString("nombre")));
+                String hashGuardado = rs.getString("password");
+                
+                // BCrypt compara la contraseña en texto plano con el hash guardado
+                if (passwordEncoder.matches(credenciales.get("password"), hashGuardado)) {
+                    return ResponseEntity.ok(Map.of("status", "ok", "nombre", rs.getString("nombre")));
+                } else {
+                    return ResponseEntity.status(401).body(Map.of("error", "Credenciales incorrectas"));
+                }
             } else {
                 return ResponseEntity.status(401).body(Map.of("error", "Credenciales incorrectas"));
             }

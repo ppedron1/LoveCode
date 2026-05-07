@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoveCode | Encuentra a tu {</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo_lovecode.png" alt="LoveCode Logo" class="logo-image">
+        </div>
+        <div class="nav-links">
+            <a href="login.html" class="btn-outline">Log In</a>
+            <a href="register.html" class="btn-solid">Registrarse</a>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <div class="hero-content">
+            <h1>No busques tu media naranja, <br><span class="highlight">busca tu media llave }</span></h1>
+            <p>La primera app de citas exclusiva para programadores.</p>
+            <div class="cta-buttons">
+                <a href="register.html" class="btn-solid pulse">Únete</a>
+            </div>
+        </div>
+        <div class="hero-image profiles-hero">
+            <h2 class="profiles-hero-title">Perfiles que puedes encontrar</h2>
+            <div class="profiles-grid" id="profiles-grid">
+                <!-- Los perfiles se cargan dinámicamente desde la BD -->
+                <p style="color: #aaa; text-align: center; grid-column: 1/-1;">Cargando perfiles...</p>
+            </div>
+        </div>
+
+    <script>
+        const API_URL = "http://localhost:8080/api/usuarios";
+
+        async function cargarPerfiles() {
+            const grid = document.getElementById('profiles-grid');
+
+            try {
+                const res = await fetch(API_URL);
+                const usuarios = await res.json();
+
+                if (usuarios.length === 0) {
+                    grid.innerHTML = '<p style="color: #aaa; text-align: center; grid-column: 1/-1;">No hay perfiles registrados aún. ¡Sé el primero!</p>';
+                    return;
+                }
+
+                grid.innerHTML = '';
+
+                // Mostrar solo los primeros 6 usuarios en la página pública
+                const usuariosPreview = usuarios.slice(0, 6);
+
+                usuariosPreview.forEach(u => {
+                    const card = document.createElement('div');
+                    card.className = 'profile-card';
+                    card.innerHTML = `
+                        <div class="profile-info">
+                            <h3>${u.nombre} <span class="status online"></span></h3>
+                            <p class="role">📍 ${u.ciudad || 'Sin ciudad'}</p>
+                            <p class="bio">"${u.descripcion || 'Sin descripción'}"</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn nope" aria-label="Rechazar">✗</button>
+                            <button class="action-btn like" aria-label="Me gusta">❤</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Error cargando perfiles:", error);
+                grid.innerHTML = '<p style="color: #ff6b6b; text-align: center; grid-column: 1/-1;">Error al conectar con el servidor</p>';
+            }
+        }
+
+        // Cargar perfiles al abrir la página
+        cargarPerfiles();
+    </script>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 LoveCode. All rights reserved. <br> Made with <span class="heart">❤</span> and code.</p>
+    </footer>
+</body>
+
+</html>

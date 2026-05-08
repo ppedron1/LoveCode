@@ -1,10 +1,5 @@
 package com.LoveCode.controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,34 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.LoveCode.ConexionDB;
+import com.LoveCode.dao.UsuarioDAO;
 
 @RestController
 @RequestMapping("/api/usuarios")
 @CrossOrigin(origins = "*")
 public class UsuarioController {
 
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
+
     @GetMapping
     public ResponseEntity<?> listarUsuarios() {
-        // Nunca devolvemos el password al frontend
-        String sql = "SELECT id_usuario as id, nombre, email, ciudad, descripcion FROM Usuarios";
-
-        try (Connection conn = ConexionDB.conectar();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ResultSet rs = ps.executeQuery();
-            List<Map<String, String>> usuarios = new ArrayList<>();
-
-            while (rs.next()) {
-                Map<String, String> u = new LinkedHashMap<>();
-                u.put("id", rs.getString("id"));
-                u.put("nombre", rs.getString("nombre"));
-                u.put("email", rs.getString("email"));
-                u.put("ciudad", rs.getString("ciudad"));
-                u.put("descripcion", rs.getString("descripcion"));
-                usuarios.add(u);
-            }
-
+        try {
+            List<Map<String, String>> usuarios = usuarioDAO.listarTodos();
             return ResponseEntity.ok(usuarios);
 
         } catch (Exception e) {

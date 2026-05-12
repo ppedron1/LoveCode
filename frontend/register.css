@@ -2,18 +2,37 @@
 
 :root {
     --bg-color: #0f111a;
+<<<<<<< Updated upstream
     --card-bg: #1e293b;
     --text-color: #ffffff;
     --primary: #ff007f; /* Rosa para el registro */
     --primary-hover: #e60073;
     --input-bg: #000000;
+=======
+    --card-bg: #1a1c23;
+    --text-color: #82aaff;
+    --primary: #ff007f;
+    /* Azul para el registro */
+    --primary-hover: #6a95ff;
+    --input-bg: #0f111a;
+>>>>>>> Stashed changes
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
+<<<<<<< Updated upstream
     background: linear-gradient(135deg, #b90072 0%, #000000 50%, #005d9b 100%);
     background-color: var(--bg-color);
+=======
+    background: linear-gradient(135deg, #f5008f 0%, #000 50%, #0037ff 100%),
+        radial-gradient(circle at top right, rgba(255, 0, 128, 0.15), transparent 40%),
+        radial-gradient(circle at bottom left, rgba(0, 81, 255, 0.15), transparent 40%);
+>>>>>>> Stashed changes
     background-attachment: fixed;
     color: var(--text-color);
     font-family: 'Inter', sans-serif;
@@ -23,6 +42,7 @@ body {
     align-items: center;
 }
 
+<<<<<<< Updated upstream
 .auth-container { width: 100%; max-width: 600px; padding: 20px; }
 
 .auth-card {
@@ -33,6 +53,20 @@ body {
                       linear-gradient(135deg, #b90072 0%, #000000 50%, #005d9b 100%);
     background-origin: border-box;
     background-clip: padding-box, border-box;
+=======
+.auth-container {
+    width: 100%;
+    max-width: 650px;
+    padding: 20px;
+}
+
+.auth-card {
+    background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+                linear-gradient(135deg, #0037ff 0%, #000 50%, #f5008f 100%) border-box;
+    padding: 40px;
+    border-radius: 12px;
+    border: 3px solid transparent;
+>>>>>>> Stashed changes
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -49,7 +83,8 @@ body {
     max-width: 280px;
     height: auto;
     margin-bottom: 15px;
-    filter: invert(1); /* Pone el logo blanco */
+    filter: invert(1);
+    /* Pone el logo blanco */
 }
 
 .header-subtitle {
@@ -57,18 +92,29 @@ body {
     color: var(--text-color);
 }
 
-.input-group { margin-bottom: 20px; }
+.input-group {
+    margin-bottom: 20px;
+}
+
 .input-group label {
     display: block;
     font-family: 'Fira Code', monospace;
     font-size: 1.1rem;
+<<<<<<< Updated upstream
     color: #ffffff;
     font-weight: bold;
+=======
+    color: var(--text-color);
+>>>>>>> Stashed changes
     margin-bottom: 8px;
+    transition: 0.3s;
 }
+
+
 
 .input-group input {
     width: 100%;
+<<<<<<< Updated upstream
     padding: 15px 18px;
     background: var(--input-bg);
     border: 1px solid rgba(255,255,255,0.4);
@@ -77,20 +123,42 @@ body {
     font-family: 'Fira Code', monospace;
     font-weight: bold;
     font-size: 1.1rem;
+=======
+    padding: 14px 18px;
+    background: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: white;
+    font-family: 'Fira Code', monospace;
+    font-size: 1.2rem;
+>>>>>>> Stashed changes
     outline: none;
     transition: 0.3s;
 }
 
-.input-group input:focus { border-color: var(--primary); box-shadow: 0 0 8px rgba(130, 170, 255, 0.3); }
+
+
+.input-group input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 8px rgba(255, 0, 127, 0.3);
+}
 
 .auth-btn {
     width: 100%;
+<<<<<<< Updated upstream
     padding: 15px;
+=======
+    padding: 14px;
+>>>>>>> Stashed changes
     background: var(--primary);
-    color: #0f111a;
+    color: white;
     border: none;
     border-radius: 6px;
+<<<<<<< Updated upstream
     font-size: 1.25rem;
+=======
+    font-size: 1.2rem;
+>>>>>>> Stashed changes
     font-weight: bold;
     font-family: 'Fira Code', monospace;
     cursor: pointer;
@@ -100,6 +168,7 @@ body {
 
 .input-group textarea {
     width: 100%;
+<<<<<<< Updated upstream
     padding: 15px 18px;
     background: var(--input-bg);
     border: 1px solid rgba(255,255,255,0.4);
@@ -108,12 +177,22 @@ body {
     font-family: 'Fira Code', monospace;
     font-weight: bold;
     font-size: 1.1rem;
+=======
+    padding: 14px 18px;
+    background: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: white;
+    font-family: 'Fira Code', monospace;
+    font-size: 1.2rem;
+>>>>>>> Stashed changes
     outline: none;
     resize: none;
+    transition: 0.3s;
 }
 
-.auth-btn:hover { background: var(--primary-hover); transform: scale(1.02); }
 
+<<<<<<< Updated upstream
 .auth-footer { text-align: center; margin-top: 25px; font-size: 0.9rem; }
 .auth-footer a { color: var(--primary); text-decoration: none; font-family: 'Fira Code', monospace; }
 .auth-footer a:hover { text-decoration: underline; }
@@ -195,4 +274,26 @@ body {
 .tech-checkbox:checked + .tech-label[data-tech="XML"] {
     color: #8cc84b; border-color: rgba(140,200,75,0.5); background: rgba(140,200,75,0.12);
     box-shadow: 0 0 12px rgba(140,200,75,0.2);
+=======
+
+.auth-btn:hover {
+    background: #e60073;
+    transform: scale(1.02);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.9rem;
+}
+
+.auth-footer a {
+    color: var(--primary);
+    text-decoration: none;
+    font-family: 'Fira Code', monospace;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+>>>>>>> Stashed changes
 }

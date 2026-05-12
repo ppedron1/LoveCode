@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
         .dashboard-header {
             text-align: center;
             padding: 2rem 1rem;
@@ -150,3 +151,156 @@
             0% { transform: translateX(0); opacity: 1; }
             100% { transform: translateX(-100px) rotate(-10deg); opacity: 0; }
         }
+=======
+:root {
+    --bg-color: #0f111a;
+    --card-bg: #1a1c23;
+    --text-color: #82aaff;
+    --primary: #ff007f;
+    --primary-hover: #e60073;
+    --secondary: #82aaff;
+}
+
+body {
+    background: linear-gradient(135deg, #f5008f 0%, #000 50%, #0037ff 100%),
+                radial-gradient(circle at top right, rgba(255, 0, 128, 0.15), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(0, 81, 255, 0.15), transparent 40%);
+    background-attachment: fixed;
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.dashboard-header h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #f5008f, #0037ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dashboard-header p {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* Reutilizando estilos de index.css para consistencia */
+.profiles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+/* Las tarjetas se estilizan igual que en el index */
+.profile-card {
+    background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+                linear-gradient(135deg, #0037ff 0%, #000 50%, #f5008f 100%) border-box;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid transparent;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info {
+    padding: 25px;
+    flex-grow: 1;
+}
+
+.profile-info h3 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status.online {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #27c93f;
+    box-shadow: 0 0 10px #27c93f;
+}
+
+.role {
+    color: var(--secondary);
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.bio {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #8f95b2;
+    font-style: italic;
+}
+
+.card-actions {
+    display: flex;
+    padding: 0 25px 25px;
+    gap: 15px;
+    justify-content: center;
+}
+
+.action-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn.nope {
+    background: rgba(255, 95, 86, 0.1);
+    color: #ff5f56;
+    border: 2px solid #ff5f56;
+}
+
+.action-btn.nope:hover {
+    background: #ff5f56;
+    color: white;
+    box-shadow: 0 0 20px rgba(255, 95, 86, 0.4);
+    transform: scale(1.1);
+}
+
+.action-btn.like {
+    background: rgba(39, 201, 63, 0.1);
+    color: #27c93f;
+    border: 2px solid #27c93f;
+}
+
+.action-btn.like:hover {
+    background: #27c93f;
+    color: white;
+    box-shadow: 0 0 20px rgba(39, 201, 63, 0.4);
+    transform: scale(1.1);
+}
+
+>>>>>>> Stashed changes

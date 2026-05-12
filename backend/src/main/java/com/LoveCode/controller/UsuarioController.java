@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.LoveCode.dao.UsuarioDAO;
@@ -19,9 +20,14 @@ public class UsuarioController {
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     @GetMapping
-    public ResponseEntity<?> listarUsuarios() {
+    public ResponseEntity<?> listarUsuarios(@RequestParam(required = false) Integer idUsuario) {
         try {
-            List<Map<String, String>> usuarios = usuarioDAO.listarTodos();
+            List<Map<String, String>> usuarios;
+            if (idUsuario != null) {
+                usuarios = usuarioDAO.listarParaDashboard(idUsuario);
+            } else {
+                usuarios = usuarioDAO.listarTodos();
+            }
             return ResponseEntity.ok(usuarios);
 
         } catch (Exception e) {

@@ -2,32 +2,36 @@
 
 :root {
     --bg-color: #0f111a;
-    --card-bg: #1a1c23;
-    --text-color: #a6accd;
+    --card-bg: #1e293b;
+    --text-color: #ffffff;
     --primary: #ff007f;
-    --input-bg: #0f111a;
+    --input-bg: #000000;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
+    background: linear-gradient(135deg, #b90072 0%, #000000 50%, #005d9b 100%);
     background-color: var(--bg-color);
+    background-attachment: fixed;
     color: var(--text-color);
     font-family: 'Inter', sans-serif;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: radial-gradient(circle at 50% 0%, rgba(255, 0, 127, 0.15) 0%, transparent 50%);
 }
 
-.auth-container { width: 100%; max-width: 400px; padding: 20px; }
+.auth-container { width: 100%; max-width: 500px; padding: 20px; }
 
 .auth-card {
-    background: var(--card-bg);
-    padding: 40px;
+    padding: 50px;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 3px solid transparent;
+    background-image: linear-gradient(var(--card-bg), var(--card-bg)), 
+                      linear-gradient(135deg, #b90072 0%, #000000 50%, #005d9b 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -41,7 +45,7 @@ body {
 
 .logo-header-image {
     width: 100%;
-    max-width: 220px;
+    max-width: 280px;
     height: auto;
     margin-bottom: 15px;
     filter: invert(1); /* Pone el logo blanco */
@@ -56,19 +60,22 @@ body {
 .input-group label {
     display: block;
     font-family: 'Fira Code', monospace;
-    font-size: 0.85rem;
-    color: #82aaff;
+    font-size: 1.1rem;
+    color: #ffffff;
+    font-weight: bold;
     margin-bottom: 8px;
 }
 
 .input-group input {
     width: 100%;
-    padding: 12px 15px;
+    padding: 15px 18px;
     background: var(--input-bg);
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.4);
     border-radius: 6px;
     color: white;
     font-family: 'Fira Code', monospace;
+    font-weight: bold;
+    font-size: 1.1rem;
     outline: none;
     transition: 0.3s;
 }
@@ -77,17 +84,17 @@ body {
 
 .auth-btn {
     width: 100%;
-    padding: 12px;
+    padding: 15px;
     background: var(--primary);
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: 1.25rem;
     font-weight: bold;
     font-family: 'Fira Code', monospace;
     cursor: pointer;
     transition: 0.3s;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .auth-btn:hover { background: #e60073; transform: scale(1.02); }

@@ -1,0 +1,152 @@
+        .dashboard-header {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        .dashboard-header h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .dashboard-header p {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+
+        /* Dashboard: profiles grid en el centro, más ancho */
+        .dashboard-container .profiles-hero {
+            width: 100%;
+            align-items: center;
+            padding: 0 5%;
+        }
+
+        .dashboard-container .profiles-grid {
+            max-width: 900px;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* ==================== Modal de Match ==================== */
+        .match-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .match-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .match-modal {
+            background: linear-gradient(145deg, #1a1c23, #252833);
+            border: 1px solid rgba(255, 0, 127, 0.3);
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 25px 60px rgba(255, 0, 127, 0.2),
+                        0 0 80px rgba(255, 0, 127, 0.08);
+            animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .match-hearts {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: pulseMatch 1.2s infinite;
+        }
+
+        @keyframes pulseMatch {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .match-title {
+            font-size: 2.2rem;
+            color: #ff007f;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 0 30px rgba(255, 0, 127, 0.4);
+        }
+
+        .match-subtitle {
+            color: #a6accd;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .match-techs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .match-tech-tag {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ff007f;
+            background: rgba(255, 0, 127, 0.1);
+            border: 1px solid rgba(255, 0, 127, 0.3);
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.15);
+        }
+
+        .match-btn {
+            padding: 12px 40px;
+            background: linear-gradient(135deg, #ff007f, #e60073);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Fira Code', monospace;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.3);
+        }
+
+        .match-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.5);
+        }
+
+        /* ==================== Card con like/nope animación ==================== */
+        .profile-card.liked {
+            animation: cardLiked 0.5s ease forwards;
+        }
+
+        .profile-card.noped {
+            animation: cardNoped 0.5s ease forwards;
+        }
+
+        @keyframes cardLiked {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(100px) rotate(10deg); opacity: 0; }
+        }
+
+        @keyframes cardNoped {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(-100px) rotate(-10deg); opacity: 0; }
+        }

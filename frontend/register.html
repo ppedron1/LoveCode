@@ -40,7 +40,24 @@
     <textarea id="descripcion" placeholder="Cuentanos sobre tus intereses..." rows="3" required></textarea>
 </div>
 
+<<<<<<< Updated upstream
                 <button type="submit" class="auth-btn">INSERT INTO Usuarios</button>
+=======
+                <div class="input-group">
+                    <label for="reg-descripcion">String descripcion;</label>
+                    <input type="text" id="reg-descripcion" placeholder="Cuéntanos algo sobre ti...">
+                </div>
+
+                <div class="input-group">
+                    <label>List&lt;Tecnologia&gt; tecnologias;</label>
+                    <div class="tech-selector" id="tech-selector">
+                        <!-- Las tecnologías se cargan dinámicamente -->
+                        <p class="tech-loading">Cargando tecnologías...</p>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn">Ejecutar (Crear Cuenta)</button>
+>>>>>>> Stashed changes
             </form>
 
             <div class="auth-footer">
@@ -48,5 +65,14 @@
             </div>
         </div>
     </div>
+<<<<<<< Updated upstream
+=======
+    <script src="Auth.js"></script>
+    <script>
+        document.getElementById('form-registro').addEventListener('submit', ejecutarRegistro);
+        // Cargar tecnologías cuando se abre la página
+        cargarTecnologias();
+    </script>
+>>>>>>> Stashed changes
 </body>
 </html>

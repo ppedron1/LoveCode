@@ -106,6 +106,7 @@ public class UsuarioDAO {
 
             return usuarios;
         }
+    }
 
     // ==================== LISTAR PARA DASHBOARD ====================
 

@@ -58,6 +58,21 @@ public class MatchDAO {
         }
     }
 
+    public boolean comprobarSiHayMatch(int id1, int id2) throws SQLException {
+        String sql = "{call sp_comprobar_si_hay_match(?, ?, ?)}";
+        
+        try (Connection conn = ConexionDB.conectar();
+             CallableStatement cs = conn.prepareCall(sql)) {
+            
+            cs.setInt(1, id1);
+            cs.setInt(2, id2);
+            cs.registerOutParameter(3, Types.INTEGER);
+            
+            cs.execute();
+            return cs.getInt(3) > 0;
+        }
+    }
+
     public List<Map<String, String>> listarMatches(int idUsuarioActual) throws SQLException {
         String sql = "{call sp_listar_matches(?)}";
 

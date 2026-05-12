@@ -28,16 +28,9 @@ public class LikeController {
             likeDAO.darLike(idEmisor, idReceptor);
 
             // --- Lógica de Match ---
-            boolean hayMatch = false;
-            
-            // 1. ¿El otro ya me había dado like?
-            if (matchDAO.existeLikeMutuo(idEmisor, idReceptor)) {
-                // 2. ¿Compartimos al menos una tecnología?
-                if (matchDAO.compartenTecnologia(idEmisor, idReceptor)) {
-                    matchDAO.crearMatch(idEmisor, idReceptor);
-                    hayMatch = true;
-                }
-            }
+            // Ahora el Match se crea automáticamente por un TRIGGER en la base de datos.
+            // Solo preguntamos si el match existe después de dar el like para informar al usuario.
+            boolean hayMatch = matchDAO.comprobarSiHayMatch(idEmisor, idReceptor);
 
             return ResponseEntity.ok(Map.of(
                 "mensaje", "Like registrado correctamente",

@@ -1,7 +1,7 @@
 package com.LoveCode.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,22 +12,17 @@ import java.util.Map;
 import com.LoveCode.ConexionDB;
 
 /**
- * DAO para la tabla Tecnologias y la relación Usuarios_Tecnologias.
+ * DAO para la tabla Tecnologias usando Procedimientos Almacenados.
  */
 public class TecnologiaDAO {
 
-    // ==================== LISTAR TODAS ====================
-
-    /**
-     * Devuelve todas las tecnologías disponibles en el catálogo.
-     */
     public List<Map<String, Object>> listarTodas() throws SQLException {
-        String sql = "SELECT id_tecnologia, nombre FROM Tecnologias ORDER BY nombre";
+        String sql = "{call sp_listar_tecnologias()}";
 
         try (Connection conn = ConexionDB.conectar();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             CallableStatement cs = conn.prepareCall(sql)) {
 
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = cs.executeQuery();
             List<Map<String, Object>> tecnologias = new ArrayList<>();
 
             while (rs.next()) {
@@ -36,28 +31,18 @@ public class TecnologiaDAO {
                 t.put("nombre", rs.getString("nombre"));
                 tecnologias.add(t);
             }
-
             return tecnologias;
         }
     }
 
-    // ==================== OBTENER POR USUARIO ====================
-
-    /**
-     * Devuelve las tecnologías asociadas a un usuario específico.
-     */
     public List<Map<String, Object>> obtenerPorUsuario(int idUsuario) throws SQLException {
-        String sql = "SELECT t.id_tecnologia, t.nombre " +
-                     "FROM Tecnologias t " +
-                     "INNER JOIN Usuarios_Tecnologias ut ON t.id_tecnologia = ut.id_tecnologia " +
-                     "WHERE ut.id_usuario = ? " +
-                     "ORDER BY t.nombre";
+        String sql = "{call sp_obtener_tecnologias_usuario(?)}";
 
         try (Connection conn = ConexionDB.conectar();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             CallableStatement cs = conn.prepareCall(sql)) {
 
-            ps.setInt(1, idUsuario);
-            ResultSet rs = ps.executeQuery();
+            cs.setInt(1, idUsuario);
+            ResultSet rs = cs.executeQuery();
             List<Map<String, Object>> tecnologias = new ArrayList<>();
 
             while (rs.next()) {
@@ -66,29 +51,22 @@ public class TecnologiaDAO {
                 t.put("nombre", rs.getString("nombre"));
                 tecnologias.add(t);
             }
-
             return tecnologias;
         }
     }
 
-    // ==================== ASIGNAR TECNOLOGÍAS A USUARIO ====================
-
-    /**
-     * Asocia una lista de tecnologías a un usuario (INSERT en Usuarios_Tecnologias).
-     */
     public void asignarTecnologias(int idUsuario, List<Integer> idsTecnologias) throws SQLException {
-        String sql = "INSERT INTO Usuarios_Tecnologias (id_usuario, id_tecnologia) VALUES (?, ?)";
+        String sql = "{call sp_asignar_tecnologia_usuario(?, ?)}";
 
         try (Connection conn = ConexionDB.conectar();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             CallableStatement cs = conn.prepareCall(sql)) {
 
             for (int idTec : idsTecnologias) {
-                ps.setInt(1, idUsuario);
-                ps.setInt(2, idTec);
-                ps.addBatch();
+                cs.setInt(1, idUsuario);
+                cs.setInt(2, idTec);
+                cs.addBatch();
             }
-
-            ps.executeBatch();
+            cs.executeBatch();
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.LoveCode.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,41 +10,31 @@ import java.util.List;
 import java.util.Map;
 import com.LoveCode.ConexionDB;
 
+/**
+ * DAO para la tabla Likes usando Procedimientos Almacenados.
+ */
 public class LikeDAO {
 
-    /**
-     * Registra un "like" en la base de datos.
-     * @param idEmisor ID del usuario que da el like.
-     * @param idReceptor ID del usuario que recibe el like.
-     * @throws SQLException Si hay un error en la base de datos.
-     */
     public void darLike(int idEmisor, int idReceptor) throws SQLException {
-        String sql = "INSERT INTO Likes (id_usuario_da, id_usuario_recibe) VALUES (?, ?)";
+        String sql = "{call sp_dar_like(?, ?)}";
 
         try (Connection conn = ConexionDB.conectar();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             CallableStatement cs = conn.prepareCall(sql)) {
 
-            ps.setInt(1, idEmisor);
-            ps.setInt(2, idReceptor);
-
-            ps.executeUpdate();
+            cs.setInt(1, idEmisor);
+            cs.setInt(2, idReceptor);
+            cs.executeUpdate();
         }
     }
 
-    /**
-     * Obtiene los usuarios a los que el usuario actual ha dado like.
-     */
     public List<Map<String, String>> listarLikesDados(int idUsuarioActual) throws SQLException {
-        String sql = "SELECT u.id_usuario as id, u.nombre, u.email, u.ciudad, u.descripcion " +
-                     "FROM Usuarios u " +
-                     "INNER JOIN Likes l ON u.id_usuario = l.id_usuario_recibe " +
-                     "WHERE l.id_usuario_da = ?";
+        String sql = "{call sp_listar_likes_dados(?)}";
 
         try (Connection conn = ConexionDB.conectar();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             CallableStatement cs = conn.prepareCall(sql)) {
 
-            ps.setInt(1, idUsuarioActual);
-            ResultSet rs = ps.executeQuery();
+            cs.setInt(1, idUsuarioActual);
+            ResultSet rs = cs.executeQuery();
             List<Map<String, String>> usuarios = new ArrayList<>();
 
             while (rs.next()) {
@@ -56,7 +46,6 @@ public class LikeDAO {
                 u.put("descripcion", rs.getString("descripcion"));
                 usuarios.add(u);
             }
-
             return usuarios;
         }
     }

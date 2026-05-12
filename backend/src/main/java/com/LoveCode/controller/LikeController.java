@@ -4,6 +4,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.LoveCode.dao.LikeDAO;
+import com.LoveCode.dao.MatchDAO;
 
 @RestController
 @RequestMapping("/api/likes")
@@ -11,6 +12,7 @@ import com.LoveCode.dao.LikeDAO;
 public class LikeController {
 
     private LikeDAO likeDAO = new LikeDAO();
+    private MatchDAO matchDAO = new MatchDAO();
 
     @PostMapping
     public ResponseEntity<?> darLike(@RequestBody Map<String, Integer> request) {
@@ -23,11 +25,26 @@ public class LikeController {
             }
 
             likeDAO.darLike(idEmisor, idReceptor);
-            return ResponseEntity.ok(Map.of("mensaje", "Like registrado correctamente"));
+
+            // --- Lógica de Match ---
+            boolean hayMatch = false;
+            
+            // 1. ¿El otro ya me había dado like?
+            if (matchDAO.existeLikeMutuo(idEmisor, idReceptor)) {
+                // 2. ¿Compartimos al menos una tecnología?
+                if (matchDAO.compartenTecnologia(idEmisor, idReceptor)) {
+                    matchDAO.crearMatch(idEmisor, idReceptor);
+                    hayMatch = true;
+                }
+            }
+
+            return ResponseEntity.ok(Map.of(
+                "mensaje", "Like registrado correctamente",
+                "match", hayMatch
+            ));
 
         } catch (Exception e) {
-            // Manejar violación de clave única (ya le dio like)
-            if (e.getMessage().contains("Duplicate entry")) {
+            if (e.getMessage() != null && e.getMessage().contains("Duplicate entry")) {
                 return ResponseEntity.status(400).body(Map.of("error", "Ya has dado like a este usuario"));
             }
             e.printStackTrace();

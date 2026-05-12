@@ -7,6 +7,7 @@ public class Usuario {
     private String password;
     private String ciudad;
     private String descripcion;
+    private java.util.List<Integer> tecnologiasIds;
 
     // Constructores
     public Usuario() {}
@@ -25,5 +26,7 @@ public class Usuario {
     public void setCiudad(String ciudad) { this.ciudad = ciudad; }
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public java.util.List<Integer> getTecnologiasIds() { return tecnologiasIds; }
+    public void setTecnologiasIds(java.util.List<Integer> tecnologiasIds) { this.tecnologiasIds = tecnologiasIds; }
     
 }

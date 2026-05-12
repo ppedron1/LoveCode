@@ -4,7 +4,7 @@ const usuarioLogueado = localStorage.getItem('lovecode_user');
 const idUsuarioLogueado = localStorage.getItem('lovecode_user_id');
 
 if (!usuarioLogueado || !idUsuarioLogueado) {
-    window.location.href = "login.html"; // Si no está logueado o falta el ID, echarlo
+    window.location.href = "login.html"; // Si no está logueado, echarlo al login
 } else {
     document.getElementById('user-greeting').textContent = "Hola, " + usuarioLogueado;
 }
@@ -32,7 +32,6 @@ async function cargarPerfiles() {
         // En el dashboard cargamos TODOS los usuarios
         usuarios.forEach(u => {
             // No mostrar el perfil del propio usuario logueado
-            // Usamos el ID para mayor seguridad
             if (u.id == idUsuarioLogueado) return;
 
             const card = document.createElement('div');
@@ -76,11 +75,19 @@ async function darLike(idReceptor, btn) {
             btn.style.color = "white";
             btn.innerHTML = "✔";
             btn.disabled = true;
+
+            // Si hay MATCH, mostrar notificación especial
+            if (info.match) {
+                mostrarNotificacionMatch();
+            }
             
             // Opcional: Ocultar la tarjeta después de un momento
             setTimeout(() => {
-                btn.closest('.profile-card').style.opacity = '0';
-                setTimeout(() => btn.closest('.profile-card').remove(), 500);
+                const card = btn.closest('.profile-card');
+                if (card) {
+                    card.style.opacity = '0';
+                    setTimeout(() => card.remove(), 500);
+                }
             }, 1000);
 
         } else {
@@ -91,6 +98,24 @@ async function darLike(idReceptor, btn) {
         console.error("Error al enviar like:", error);
         alert("Error de conexión");
     }
+}
+
+function mostrarNotificacionMatch() {
+    const overlay = document.createElement('div');
+    overlay.className = 'match-overlay';
+    overlay.style = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.85); display: flex; align-items: center;
+        justify-content: center; z-index: 1000; backdrop-filter: blur(5px);
+    `;
+    overlay.innerHTML = `
+        <div class="match-content" style="background: #1a1c2c; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid #ff4b2b; box-shadow: 0 0 30px rgba(255,75,43,0.3);">
+            <h1 style="color: #ff4b2b; margin-bottom: 20px; font-family: 'Fira Code', monospace;">¡IT'S A MATCH! ❤️</h1>
+            <p style="color: white; margin-bottom: 30px;">Habéis coincidido en gustos y tecnologías.</p>
+            <button onclick="this.closest('.match-overlay').remove()" style="background: #ff4b2b; color: white; border: none; padding: 12px 30px; border-radius: 30px; cursor: pointer; font-weight: bold;">¡Genial!</button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
 }
 
 cargarPerfiles();

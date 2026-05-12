@@ -23,6 +23,7 @@ public class AuthController {
     private BCryptPasswordEncoder passwordEncoder;
 
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private com.LoveCode.dao.TecnologiaDAO tecnologiaDAO = new com.LoveCode.dao.TecnologiaDAO();
 
     @PostMapping("/registro")
     public ResponseEntity<?> registrar(@RequestBody Usuario u) {
@@ -31,7 +32,13 @@ public class AuthController {
             String passwordEncriptada = passwordEncoder.encode(u.getPassword());
             u.setPassword(passwordEncriptada); // Se guarda el hash, NO el texto plano
 
-            usuarioDAO.registrar(u);
+            int idGenerado = usuarioDAO.registrar(u);
+
+            // Si el usuario seleccionó tecnologías, las guardamos
+            if (idGenerado != -1 && u.getTecnologiasIds() != null && !u.getTecnologiasIds().isEmpty()) {
+                tecnologiaDAO.asignarTecnologias(idGenerado, u.getTecnologiasIds());
+            }
+
             return ResponseEntity.ok(Map.of("mensaje", "Usuario registrado correctamente"));
 
         } catch (Exception e) {

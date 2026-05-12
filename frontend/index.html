@@ -15,25 +15,26 @@
         </div>
         <div class="nav-links">
             <a href="login.html" class="btn-outline">Log In</a>
-            <a href="register.html" class="btn-solid">Registrarse</a>
         </div>
     </nav>
 
     <main class="hero">
         <div class="hero-content">
             <h1>No busques tu media naranja, <br><span class="highlight">busca tu media llave }</span></h1>
-            <p>La primera app de citas exclusiva para programadores.</p>
             <div class="cta-buttons">
-                <a href="register.html" class="btn-solid pulse">Únete</a>
+                <a href="register.html" class="btn-solid pulse"
+                    style="padding: 15px 40px; font-size: 1.3rem;">Registrate</a>
             </div>
         </div>
-        <div class="hero-image profiles-hero">
-            <h2 class="profiles-hero-title">Perfiles que puedes encontrar</h2>
-            <div class="profiles-grid" id="profiles-grid">
-                <!-- Los perfiles se cargan dinámicamente desde la BD -->
-                <p style="color: #aaa; text-align: center; grid-column: 1/-1;">Cargando perfiles...</p>
-            </div>
+    </main>
+
+    <section class="profiles-section">
+        <h2 class="section-title">Perfiles que puedes encontrar</h2>
+        <div class="profiles-grid" id="profiles-grid">
+            <!-- Los perfiles se cargan dinámicamente desde la BD -->
+            <p style="color: #aaa; text-align: center; grid-column: 1/-1;">Cargando perfiles...</p>
         </div>
+    </section>
 
     <script>
         const API_URL = "http://localhost:8080/api/usuarios";
@@ -81,7 +82,6 @@
         // Cargar perfiles al abrir la página
         cargarPerfiles();
     </script>
-    </main>
 
     <footer class="footer">
         <p>&copy; 2026 LoveCode. All rights reserved. <br> Made with <span class="heart">❤</span> and code.</p>

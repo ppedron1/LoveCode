@@ -52,6 +52,7 @@ async function ejecutarLogin(event) {
         if (res.ok) {
             alert("Bienvenido, " + info.nombre);
             localStorage.setItem('lovecode_user', info.nombre);
+            localStorage.setItem('lovecode_user_id', info.id); // Guardamos el ID para los likes
             window.location.href = "dashboard.html";
         } else {
             alert("Acceso denegado: " + info.error);

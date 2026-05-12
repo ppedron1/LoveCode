@@ -51,7 +51,11 @@ public class AuthController {
 
                 // BCrypt compara la contraseña en texto plano con el hash guardado
                 if (passwordEncoder.matches(credenciales.get("password"), hashGuardado)) {
-                    return ResponseEntity.ok(Map.of("status", "ok", "nombre", datosUsuario.get("nombre")));
+                    return ResponseEntity.ok(Map.of(
+                        "status", "ok",
+                        "nombre", datosUsuario.get("nombre"),
+                        "id", datosUsuario.get("id")
+                    ));
                 } else {
                     return ResponseEntity.status(401).body(Map.of("error", "Credenciales incorrectas"));
                 }

@@ -1,5 +1,6 @@
 package com.LoveCode.controller;
 
+import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +50,17 @@ public class LikeController {
             }
             e.printStackTrace();
             return ResponseEntity.status(500).body(Map.of("error", "Error al registrar like: " + e.getMessage()));
+        }
+    }
+
+    @GetMapping("/dados/{idUsuario}")
+    public ResponseEntity<?> listarLikesDados(@PathVariable int idUsuario) {
+        try {
+            List<Map<String, String>> likes = likeDAO.listarLikesDados(idUsuario);
+            return ResponseEntity.ok(likes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("error", "Error al obtener likes dados: " + e.getMessage()));
         }
     }
 }

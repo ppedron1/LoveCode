@@ -106,5 +106,38 @@ public class UsuarioDAO {
 
             return usuarios;
         }
+
+    // ==================== LISTAR PARA DASHBOARD ====================
+
+    /**
+     * Obtiene los usuarios que el usuario actual aún no ha "likeado".
+     * Excluye al propio usuario logueado.
+     */
+    public List<Map<String, String>> listarParaDashboard(int idUsuarioActual) throws SQLException {
+        String sql = "SELECT id_usuario as id, nombre, email, ciudad, descripcion " +
+                     "FROM Usuarios " +
+                     "WHERE id_usuario != ? " +
+                     "AND id_usuario NOT IN (SELECT id_usuario_recibe FROM Likes WHERE id_usuario_da = ?)";
+
+        try (Connection conn = ConexionDB.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idUsuarioActual);
+            ps.setInt(2, idUsuarioActual);
+            ResultSet rs = ps.executeQuery();
+            List<Map<String, String>> usuarios = new ArrayList<>();
+
+            while (rs.next()) {
+                Map<String, String> u = new LinkedHashMap<>();
+                u.put("id", rs.getString("id"));
+                u.put("nombre", rs.getString("nombre"));
+                u.put("email", rs.getString("email"));
+                u.put("ciudad", rs.getString("ciudad"));
+                u.put("descripcion", rs.getString("descripcion"));
+                usuarios.add(u);
+            }
+
+            return usuarios;
+        }
     }
 }

@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import com.LoveCode.ConexionDB;
 
 public class MatchDAO {
@@ -64,6 +68,40 @@ public class MatchDAO {
             ps.setInt(2, mayor);
             
             ps.executeUpdate();
+        }
+    }
+
+    /**
+     * Obtiene los usuarios con los que el usuario actual tiene un match.
+     */
+    public List<Map<String, String>> listarMatches(int idUsuarioActual) throws SQLException {
+        String sql = "SELECT u.id_usuario as id, u.nombre, u.email, u.ciudad, u.descripcion " +
+                     "FROM Usuarios u " +
+                     "INNER JOIN Matches m ON (u.id_usuario = m.id_usuario1 OR u.id_usuario = m.id_usuario2) " +
+                     "WHERE (m.id_usuario1 = ? OR m.id_usuario2 = ?) " +
+                     "AND u.id_usuario != ?";
+
+        try (Connection conn = ConexionDB.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idUsuarioActual);
+            ps.setInt(2, idUsuarioActual);
+            ps.setInt(3, idUsuarioActual);
+            
+            ResultSet rs = ps.executeQuery();
+            List<Map<String, String>> usuarios = new ArrayList<>();
+
+            while (rs.next()) {
+                Map<String, String> u = new LinkedHashMap<>();
+                u.put("id", rs.getString("id"));
+                u.put("nombre", rs.getString("nombre"));
+                u.put("email", rs.getString("email"));
+                u.put("ciudad", rs.getString("ciudad"));
+                u.put("descripcion", rs.getString("descripcion"));
+                usuarios.add(u);
+            }
+
+            return usuarios;
         }
     }
 }

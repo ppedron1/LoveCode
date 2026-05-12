@@ -59,7 +59,7 @@ public class UsuarioDAO {
      * @throws SQLException si hay un error en la base de datos.
      */
     public Map<String, String> buscarPorEmail(String email) throws SQLException {
-        String sql = "SELECT nombre, password FROM Usuarios WHERE email = ?";
+        String sql = "SELECT id_usuario, nombre, password FROM Usuarios WHERE email = ?";
 
         try (Connection conn = ConexionDB.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -69,6 +69,7 @@ public class UsuarioDAO {
 
             if (rs.next()) {
                 Map<String, String> datos = new LinkedHashMap<>();
+                datos.put("id", String.valueOf(rs.getInt("id_usuario")));
                 datos.put("nombre", rs.getString("nombre"));
                 datos.put("password", rs.getString("password"));
                 return datos;

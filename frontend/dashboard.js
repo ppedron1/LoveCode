@@ -1,6 +1,5 @@
 const API_URL = "http://localhost:8080/api/usuarios";
 
-// Comprobar si el usuario está logueado
 const usuarioLogueado = localStorage.getItem('lovecode_user');
 const idUsuarioLogueado = localStorage.getItem('lovecode_user_id');
 

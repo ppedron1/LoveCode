@@ -26,11 +26,11 @@ public class UsuarioDAO {
      * @param u El usuario con los datos a insertar (la password ya debe venir encriptada).
      * @throws SQLException si hay un error en la base de datos.
      */
-    public void registrar(Usuario u) throws SQLException {
+    public int registrar(Usuario u) throws SQLException {
         String sql = "INSERT INTO Usuarios (nombre, email, password, ciudad, descripcion) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = ConexionDB.conectar();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getEmail());
@@ -39,6 +39,14 @@ public class UsuarioDAO {
             ps.setString(5, u.getDescripcion());
 
             ps.executeUpdate();
+
+            // Obtener el ID generado
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+            return -1;
         }
     }
 

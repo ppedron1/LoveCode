@@ -52,3 +52,6 @@ out/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Frontend compiled assets in backend
+backend/src/main/resources/static/

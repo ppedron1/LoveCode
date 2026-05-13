@@ -90,7 +90,7 @@ function crearTarjetaPerfil(u, conAcciones, esMatch = false) {
     
     let html = `
         <div class="profile-info">
-            <h3>${u.nombre} <span class="status online"></span></h3>
+            <h3>${u.nombre}</h3>
             <p class="role">📍 ${u.ciudad || 'Sin ciudad'}</p>
             <p class="bio">"${u.descripcion || 'Sin descripción'}"</p>
         </div>

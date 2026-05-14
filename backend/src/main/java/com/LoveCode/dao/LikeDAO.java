@@ -29,7 +29,7 @@ public class LikeDAO {
 
     public void quitarLike(int idEmisor, int idReceptor) throws SQLException {
         // Ejecutamos la consulta directa por si no existe el procedimiento sp_quitar_like
-        String sql = "DELETE FROM Likes WHERE id_emisor = ? AND id_receptor = ?";
+        String sql = "DELETE FROM Likes WHERE id_usuario_da = ? AND id_usuario_recibe = ?";
 
         try (Connection conn = ConexionDB.conectar();
              java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {

@@ -69,4 +69,20 @@ public class TecnologiaDAO {
             cs.executeBatch();
         }
     }
+
+    public void rellenarTecnologias(List<Map<String, String>> usuarios) throws SQLException {
+        for (Map<String, String> u : usuarios) {
+            String idStr = u.get("id");
+            if (idStr != null) {
+                int id = Integer.parseInt(idStr);
+                List<Map<String, Object>> techs = obtenerPorUsuario(id);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < techs.size(); i++) {
+                    sb.append(techs.get(i).get("nombre").toString());
+                    if (i < techs.size() - 1) sb.append(", ");
+                }
+                u.put("tecnologias", sb.length() > 0 ? sb.toString() : "Ninguna");
+            }
+        }
+    }
 }

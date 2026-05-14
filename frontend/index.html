@@ -64,10 +64,9 @@
                             <h3>${u.nombre}</h3>
                             <p class="role">📍 ${u.ciudad || 'Sin ciudad'}</p>
                             <p class="bio">"${u.descripcion || 'Sin descripción'}"</p>
-                        </div>
-                        <div class="card-actions">
-                            <button class="action-btn nope" aria-label="Rechazar">✗</button>
-                            <button class="action-btn like" aria-label="Me gusta">❤</button>
+                            <div class="techs-container">
+                                ${(u.tecnologias && u.tecnologias !== 'Ninguna' ? u.tecnologias.split(', ') : ['Sin tecnologías']).map(t => `<span class="tech-badge">${t}</span>`).join('')}
+                            </div>
                         </div>
                     `;
                     grid.appendChild(card);

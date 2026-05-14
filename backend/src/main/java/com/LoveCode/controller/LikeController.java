@@ -50,6 +50,7 @@ public class LikeController {
     public ResponseEntity<?> listarLikesDados(@PathVariable int idUsuario) {
         try {
             List<Map<String, String>> likes = likeDAO.listarLikesDados(idUsuario);
+            new com.LoveCode.dao.TecnologiaDAO().rellenarTecnologias(likes);
             return ResponseEntity.ok(likes);
         } catch (Exception e) {
             e.printStackTrace();

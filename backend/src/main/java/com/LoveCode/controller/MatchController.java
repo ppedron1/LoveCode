@@ -23,6 +23,7 @@ public class MatchController {
     public ResponseEntity<?> listarMatches(@PathVariable int idUsuario) {
         try {
             List<Map<String, String>> matches = matchDAO.listarMatches(idUsuario);
+            new com.LoveCode.dao.TecnologiaDAO().rellenarTecnologias(matches);
             return ResponseEntity.ok(matches);
 
         } catch (Exception e) {

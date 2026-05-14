@@ -93,6 +93,9 @@ function crearTarjetaPerfil(u, conAcciones, esMatch = false) {
             <h3>${u.nombre}</h3>
             <p class="role">📍 ${u.ciudad || 'Sin ciudad'}</p>
             <p class="bio">"${u.descripcion || 'Sin descripción'}"</p>
+            <div class="techs-container">
+                ${(u.tecnologias && u.tecnologias !== 'Ninguna' ? u.tecnologias.split(', ') : ['Sin tecnologías']).map(t => `<span class="tech-badge">${t}</span>`).join('')}
+            </div>
         </div>
     `;
 

@@ -28,6 +28,7 @@ public class UsuarioController {
             } else {
                 usuarios = usuarioDAO.listarTodos();
             }
+            new com.LoveCode.dao.TecnologiaDAO().rellenarTecnologias(usuarios);
             return ResponseEntity.ok(usuarios);
 
         } catch (Exception e) {

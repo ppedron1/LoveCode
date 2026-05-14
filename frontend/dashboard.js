@@ -54,7 +54,7 @@ async function cargarLikesDados() {
 
         grid.innerHTML = '';
         usuarios.forEach(u => {
-            const card = crearTarjetaPerfil(u, false);
+            const card = crearTarjetaPerfil(u, false, false, true); // true para esLikeDado
             grid.appendChild(card);
         });
     } catch (error) {
@@ -83,7 +83,7 @@ async function cargarMatches() {
     }
 }
 
-function crearTarjetaPerfil(u, conAcciones, esMatch = false) {
+function crearTarjetaPerfil(u, conAcciones, esMatch = false, esLikeDado = false) {
     const card = document.createElement('div');
     card.className = 'profile-card';
     if (esMatch) card.classList.add('match-card');
@@ -110,6 +110,12 @@ function crearTarjetaPerfil(u, conAcciones, esMatch = false) {
         html += `
             <div class="card-actions">
                 <button class="action-btn chat" aria-label="Chat">💬 Chat</button>
+            </div>
+        `;
+    } else if (esLikeDado) {
+        html += `
+            <div class="card-actions">
+                <button class="action-btn nope" aria-label="Quitar Like" onclick="quitarLike(${u.id}, this)">💔</button>
             </div>
         `;
     }
@@ -162,6 +168,42 @@ async function darLike(idReceptor, btn) {
 
     } catch (error) {
         console.error("Error al enviar like:", error);
+        alert("Error de conexión");
+    }
+}
+
+async function quitarLike(idReceptor, btn) {
+    try {
+        const res = await fetch("http://localhost:8080/api/likes", {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                idEmisor: parseInt(idUsuarioLogueado),
+                idReceptor: idReceptor
+            })
+        });
+
+        const info = await res.json();
+
+        if (res.ok) {
+            // Ocultar la tarjeta después de un momento
+            const card = btn.closest('.profile-card');
+            if (card) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    card.remove();
+                    // Opcionalmente recargar perfiles y matches
+                    cargarPerfiles();
+                    cargarMatches();
+                }, 500);
+            }
+        } else {
+            alert(info.error || "Error al quitar like");
+        }
+
+    } catch (error) {
+        console.error("Error al quitar like:", error);
         alert("Error de conexión");
     }
 }

@@ -46,6 +46,25 @@ public class LikeController {
         }
     }
 
+    @DeleteMapping
+    public ResponseEntity<?> quitarLike(@RequestBody Map<String, Integer> request) {
+        try {
+            int idEmisor = request.get("idEmisor");
+            int idReceptor = request.get("idReceptor");
+
+            likeDAO.quitarLike(idEmisor, idReceptor);
+
+            // Eliminar el match también si existiera (por precaución, aunque la BD podría tener ON DELETE CASCADE o un Trigger)
+            // Por simplicidad, si borramos el like, el usuario ya no le gusta el otro.
+            
+            return ResponseEntity.ok(Map.of("mensaje", "Like eliminado correctamente"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("error", "Error al eliminar like: " + e.getMessage()));
+        }
+    }
+
     @GetMapping("/dados/{idUsuario}")
     public ResponseEntity<?> listarLikesDados(@PathVariable int idUsuario) {
         try {

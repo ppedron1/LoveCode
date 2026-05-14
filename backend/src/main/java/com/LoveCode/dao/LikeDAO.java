@@ -27,6 +27,19 @@ public class LikeDAO {
         }
     }
 
+    public void quitarLike(int idEmisor, int idReceptor) throws SQLException {
+        // Ejecutamos la consulta directa por si no existe el procedimiento sp_quitar_like
+        String sql = "DELETE FROM Likes WHERE id_emisor = ? AND id_receptor = ?";
+
+        try (Connection conn = ConexionDB.conectar();
+             java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idEmisor);
+            ps.setInt(2, idReceptor);
+            ps.executeUpdate();
+        }
+    }
+
     public List<Map<String, String>> listarLikesDados(int idUsuarioActual) throws SQLException {
         String sql = "{call sp_listar_likes_dados(?)}";
 

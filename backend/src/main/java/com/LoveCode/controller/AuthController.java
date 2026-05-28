@@ -49,24 +49,32 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credenciales) {
+        String email = credenciales.get("email");
         try {
             // Buscamos el usuario por email usando el DAO
-            Map<String, String> datosUsuario = usuarioDAO.buscarPorEmail(credenciales.get("email"));
+            Map<String, String> datosUsuario = usuarioDAO.buscarPorEmail(email);
 
             if (datosUsuario != null) {
                 String hashGuardado = datosUsuario.get("password");
 
                 // BCrypt compara la contraseña en texto plano con el hash guardado
                 if (passwordEncoder.matches(credenciales.get("password"), hashGuardado)) {
+                    // Registrar login exitoso en el historial de logs
+                    usuarioDAO.registrarLog(email, "EXITO");
+                    
                     return ResponseEntity.ok(Map.of(
                         "status", "ok",
                         "nombre", datosUsuario.get("nombre"),
                         "id", datosUsuario.get("id")
                     ));
                 } else {
+                    // Registrar intento de login fallido
+                    usuarioDAO.registrarLog(email, "FALLO");
                     return ResponseEntity.status(401).body(Map.of("error", "Credenciales incorrectas"));
                 }
             } else {
+                // Registrar intento de login con email no encontrado
+                usuarioDAO.registrarLog(email, "FALLO");
                 return ResponseEntity.status(401).body(Map.of("error", "Credenciales incorrectas"));
             }
         } catch (Exception e) {

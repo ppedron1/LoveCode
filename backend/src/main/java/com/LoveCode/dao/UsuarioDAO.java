@@ -104,4 +104,17 @@ public class UsuarioDAO {
             return usuarios;
         }
     }
+
+    // ==================== REGISTRAR LOG ====================
+    public void registrarLog(String email, String resultado) throws SQLException {
+        String sql = "INSERT INTO Historial_Logs (email, resultado) VALUES (?, ?)";
+
+        try (Connection conn = ConexionDB.conectar();
+             java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ps.setString(2, resultado);
+            ps.executeUpdate();
+        }
+    }
 }
